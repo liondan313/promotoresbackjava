@@ -18,6 +18,7 @@ public class TipoUsuarioEntity implements Serializable {
 
     @Column(nullable = false)
     private String nombre;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoUsuario")
     private List<UserEntity> tipoUsuario = new ArrayList<>();
 

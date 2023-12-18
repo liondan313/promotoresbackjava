@@ -1,6 +1,7 @@
 package net.purocodigo.backendcursojava.shared.dto;
 
 import lombok.Data;
+import net.purocodigo.backendcursojava.entities.TipoUsuarioEntity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -31,6 +32,7 @@ public class PromotorDto implements Serializable {
 
     private String contrasena;
     private List<ProspectoDto> prospectos;
+    private TipoUsuarioEntity tipoUsuario;
 
     private String userId;
 

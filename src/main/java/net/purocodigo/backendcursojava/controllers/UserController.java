@@ -28,7 +28,7 @@ import net.purocodigo.backendcursojava.shared.dto.ProspectoDto;
 import net.purocodigo.backendcursojava.shared.dto.PromotorDto;
 
 @RestController
-@RequestMapping("/users") // localhost:8080/users
+@RequestMapping("/users") // localhost:8080/setTipoUsuarioIdusers
 public class UserController {
 
     @Autowired
@@ -45,7 +45,14 @@ public class UserController {
 
         PromotorDto promotorDto = userService.getUser(email);
 
-        UserRest userToReturn = mapper.map(promotorDto, UserRest.class);
+        promotorDto.setTipoUsuarioId(promotorDto.getTipoUsuario().getId());
+
+        UserRest userToReturn = new UserRest(); //mapper.map(promotorDto, UserRest.class);
+
+        userToReturn.setPrimerApellido(promotorDto.getPrimerApellido());
+        userToReturn.setNombre(promotorDto.getNombre());
+        userToReturn.setCorreo(promotorDto.getCorreo());
+        userToReturn.setTipoUsuarioId(promotorDto.getTipoUsuarioId());
 
         return userToReturn;
     }
@@ -68,10 +75,9 @@ public class UserController {
 
         PromotorDto createdUser = userService.createUser(promotorDto);
 
-        userToReturn.setFirstName(createdUser.getNombre());
-        userToReturn.setLastName(createdUser.getPrimerApellido());
-        userToReturn.setEmail(createdUser.getCorreo());
-        userToReturn.setUserId(createdUser.getId().toString());
+        userToReturn.setNombre(createdUser.getNombre());
+        userToReturn.setPrimerApellido(createdUser.getPrimerApellido());
+        userToReturn.setCorreo(createdUser.getCorreo());
         userToReturn.setUserId(createdUser.getUserId());
 
         return userToReturn;
