@@ -8,12 +8,11 @@ import java.util.UUID;
 import net.purocodigo.backendcursojava.entities.*;
 import net.purocodigo.backendcursojava.repositories.ProspectosRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.purocodigo.backendcursojava.repositories.EstatusProspectoRepository;
-import net.purocodigo.backendcursojava.repositories.PromotorRepository;
+import net.purocodigo.backendcursojava.repositories.UserRepository;
 import net.purocodigo.backendcursojava.shared.dto.ProspectoCreationDto;
 import net.purocodigo.backendcursojava.shared.dto.ProspectoDto;
 import net.purocodigo.backendcursojava.utils.Exposures;
@@ -25,7 +24,7 @@ public class ProspectoService implements ProspectoServiceInterface {
     ProspectosRepository prospectosRepository;
 
     @Autowired
-    PromotorRepository promotorRepository;
+    UserRepository userRepository;
 
     @Autowired
     EstatusProspectoRepository estatusProspectoRepository;
@@ -33,15 +32,16 @@ public class ProspectoService implements ProspectoServiceInterface {
     @Autowired
     ModelMapper mapper;
 
+
     @Override
     public ProspectoDto createProspecto(ProspectoCreationDto post) {
 
-        PromotorEntity promotorEntity = promotorRepository.findByCorreo(post.getUserEmail());
+        UserEntity userEntity = userRepository.findByCorreo(post.getUserEmail());
         EstatusProspectoEntity estatusProspectoEntity = estatusProspectoRepository.findById(post.getEstatusProspectoId());
 
         ProspectoEntity prospectoEntity = new ProspectoEntity();
 
-        prospectoEntity.setPromotor(promotorEntity);
+        prospectoEntity.setPromotor(userEntity);
         prospectoEntity.setEstatusProspecto(estatusProspectoEntity);
         prospectoEntity.setNombre(post.getNombre());
         prospectoEntity.setPrimerApellido(post.getPrimerApellido());
@@ -52,6 +52,7 @@ public class ProspectoService implements ProspectoServiceInterface {
         prospectoEntity.setNumero(post.getNumero());
         prospectoEntity.setTelefono(post.getTelefono());
         prospectoEntity.setRfc(post.getRfc());
+
 
         prospectoEntity.setProspectoId(UUID.randomUUID().toString());
         //postEntity.setExpiresAt(new Date(System.currentTimeMillis() + (post.getExpirationTime() * 60000)));
@@ -82,14 +83,14 @@ public class ProspectoService implements ProspectoServiceInterface {
     @Override
     public ProspectoDto getPost(String postId) {
 
-        ProspectoEntity postEntity = prospectosRepository.findById(postId);
+        ProspectoEntity postEntity = prospectosRepository.findByProspectoId(postId);
         ProspectoDto prospectoDto = mapper.map(postEntity, ProspectoDto.class);
         return prospectoDto;
     }
 
     @Override
     public void deletePost(String postId, long userId) {
-        ProspectoEntity postEntity = prospectosRepository.findById(postId);
+        ProspectoEntity postEntity = prospectosRepository.findByProspectoId(postId);
         if (postEntity.getPromotor().getId() != userId)
             throw new RuntimeException("No se puede realizar esta accion");
 
@@ -99,15 +100,16 @@ public class ProspectoService implements ProspectoServiceInterface {
 
     @Override
     public ProspectoDto updatePost(String postId, long userId, ProspectoCreationDto postUpdateDto) {
-        ProspectoEntity postEntity = prospectosRepository.findById(postId);
-        if (postEntity.getPromotor().getId() != userId)
+        ProspectoEntity postEntity = prospectosRepository.findByProspectoId(postId);
+
+        if (postEntity.getPromotor().getTipoUsuario().getId()!=1)
             throw new RuntimeException("No se puede realizar esta accion");
 
         EstatusProspectoEntity exposureEntity = estatusProspectoRepository.findById(postUpdateDto.getEstatusProspectoId());
 
         postEntity.setEstatusProspecto(exposureEntity);
 
-        BeanUtils.copyProperties(postUpdateDto, postEntity);
+        //BeanUtils.copyProperties(postUpdateDto, postEntity);
 
         ProspectoEntity updatedPost = prospectosRepository.save(postEntity);
 

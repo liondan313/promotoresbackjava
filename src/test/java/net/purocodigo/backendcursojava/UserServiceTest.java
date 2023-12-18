@@ -7,7 +7,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import net.purocodigo.backendcursojava.entities.PromotorEntity;
+import net.purocodigo.backendcursojava.entities.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,9 +16,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import net.purocodigo.backendcursojava.entities.UserEntity;
 import net.purocodigo.backendcursojava.exceptions.EmailExistsException;
-import net.purocodigo.backendcursojava.repositories.PromotorRepository;
+import net.purocodigo.backendcursojava.repositories.UserRepository;
 import net.purocodigo.backendcursojava.services.UserService;
 import net.purocodigo.backendcursojava.shared.dto.PromotorDto;
 
@@ -28,9 +27,9 @@ public class UserServiceTest {
     UserService userService;
 
     @Mock
-    PromotorRepository promotorRepository;
+    UserRepository userRepository;
 
-    PromotorEntity userEntity;
+    UserEntity userEntity;
 
     @Mock
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -41,7 +40,7 @@ public class UserServiceTest {
     void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        userEntity = new PromotorEntity();
+        userEntity = new UserEntity();
 
         userEntity.setCorreo("correo");
         userEntity.setNombre("Daniel");
@@ -52,7 +51,7 @@ public class UserServiceTest {
     @Test
     final void testGetUser() {
 
-        when(promotorRepository.findByCorreo(anyString())).thenReturn(userEntity);
+        when(userRepository.findByCorreo(anyString())).thenReturn(userEntity);
 
         PromotorDto promotorDto = userService.getUser("test@test.com");
 
@@ -62,7 +61,7 @@ public class UserServiceTest {
 
     @Test
     final void testGetUser_UsernameNotFoundException() {
-        when(promotorRepository.findByCorreo(anyString())).thenReturn(null);
+        when(userRepository.findByCorreo(anyString())).thenReturn(null);
 
         assertThrows(UsernameNotFoundException.class, () -> {
             userService.getUser("test@test.com");
@@ -71,9 +70,9 @@ public class UserServiceTest {
 
     @Test
     final void testCreateUser() {
-        when(promotorRepository.findByCorreo(anyString())).thenReturn(null);
+        when(userRepository.findByCorreo(anyString())).thenReturn(null);
         when(bCryptPasswordEncoder.encode(anyString())).thenReturn(encryptedPassword);
-        when(promotorRepository.save(any(PromotorEntity.class))).thenReturn(userEntity);
+        when(userRepository.save(any(UserEntity.class))).thenReturn(userEntity);
 
         PromotorDto promotorDto = userService.createUser(new PromotorDto());
 
@@ -83,7 +82,7 @@ public class UserServiceTest {
 
     @Test
     final void testCreateUser_EmailExistsException() {
-        when(promotorRepository.findByCorreo(anyString())).thenReturn(userEntity);
+        when(userRepository.findByCorreo(anyString())).thenReturn(userEntity);
 
         assertThrows(EmailExistsException.class, () -> {
 

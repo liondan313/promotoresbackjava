@@ -25,6 +25,4 @@ public class ProspectoCreationDto implements Serializable {
     private String userEmail;
     private long estatusProspectoId;
 
-
-
 }

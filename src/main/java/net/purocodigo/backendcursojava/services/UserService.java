@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import net.purocodigo.backendcursojava.entities.PromotorEntity;
+import net.purocodigo.backendcursojava.entities.UserEntity;
 import net.purocodigo.backendcursojava.entities.ProspectoEntity;
+import net.purocodigo.backendcursojava.entities.TipoUsuarioEntity;
 import net.purocodigo.backendcursojava.repositories.ProspectosRepository;
+import net.purocodigo.backendcursojava.repositories.TipoUsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import net.purocodigo.backendcursojava.repositories.PromotorRepository;
+import net.purocodigo.backendcursojava.repositories.UserRepository;
 import net.purocodigo.backendcursojava.exceptions.EmailExistsException;
 import net.purocodigo.backendcursojava.shared.dto.ProspectoDto;
 import net.purocodigo.backendcursojava.shared.dto.PromotorDto;
@@ -25,7 +27,7 @@ import net.purocodigo.backendcursojava.shared.dto.PromotorDto;
 public class UserService implements UserServiceInterface {
 
     @Autowired
-    PromotorRepository promotorRepository;
+    UserRepository userRepository;
 
     @Autowired
     ProspectosRepository prospectosRepository;
@@ -36,13 +38,16 @@ public class UserService implements UserServiceInterface {
     @Autowired
     ModelMapper mapper;
 
+    @Autowired
+    TipoUsuarioRepository tipoUsuarioRepository;
+
     @Override
     public PromotorDto createUser(PromotorDto user) {
 
-        if (promotorRepository.findByCorreo(user.getCorreo()) != null)
+        if (userRepository.findByCorreo(user.getCorreo()) != null)
             throw new EmailExistsException("El correo electronico ya existe");
 
-        PromotorEntity userEntity = new PromotorEntity();
+        UserEntity userEntity = new UserEntity();
 
         BeanUtils.copyProperties(user, userEntity);
 
@@ -51,7 +56,10 @@ public class UserService implements UserServiceInterface {
         UUID userId = UUID.randomUUID();
         userEntity.setUserId(userId.toString());
 
-        PromotorEntity storedUserDetails = promotorRepository.save(userEntity);
+        TipoUsuarioEntity tipoUsuarioEntity = tipoUsuarioRepository.findById(user.getTipoUsuarioId());
+        userEntity.setTipoUsuario(tipoUsuarioEntity);
+
+        UserEntity storedUserDetails = userRepository.save(userEntity);
 
         PromotorDto userToReturn = new PromotorDto();
         BeanUtils.copyProperties(storedUserDetails, userToReturn);
@@ -61,7 +69,7 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        PromotorEntity userEntity = promotorRepository.findByCorreo(email);
+        UserEntity userEntity = userRepository.findByCorreo(email);
 
         if (userEntity == null) {
             throw new UsernameNotFoundException(email);
@@ -72,7 +80,7 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public PromotorDto getUser(String email) {
-        PromotorEntity userEntity = promotorRepository.findByCorreo(email);
+        UserEntity userEntity = userRepository.findByCorreo(email);
 
         if (userEntity == null) {
             throw new UsernameNotFoundException(email);
@@ -88,9 +96,9 @@ public class UserService implements UserServiceInterface {
     @Override
     public List<ProspectoDto> getUserPosts(String email) {
 
-        PromotorEntity userEntity = promotorRepository.findByCorreo(email);
+        UserEntity userEntity = userRepository.findByCorreo(email);
 
-        List<ProspectoEntity> posts = prospectosRepository.getByIdOrderByCreatedAtDesc(userEntity.getId());
+        List<ProspectoEntity> posts = prospectosRepository.getByPromotorIdOrderByCreatedAtDesc(userEntity.getId());
 
         List<ProspectoDto> prospectoDtos = new ArrayList<>();
 

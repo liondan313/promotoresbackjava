@@ -44,7 +44,7 @@ public class ProspectoEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "promotor_id")
-    private PromotorEntity promotor;
+    private UserEntity promotor;
 
     @Column(nullable = false)
     private String prospectoId;
@@ -59,5 +59,7 @@ public class ProspectoEntity implements Serializable {
 
     @Column(nullable = false)
     private String observaciones = "";
+
+
 
 }

@@ -34,5 +34,7 @@ public class PromotorDto implements Serializable {
 
     private String userId;
 
+    private long tipoUsuarioId;
+
 
 }

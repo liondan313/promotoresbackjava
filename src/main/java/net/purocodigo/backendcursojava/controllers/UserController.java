@@ -6,6 +6,9 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import net.purocodigo.backendcursojava.entities.EstatusProspectoEntity;
+import net.purocodigo.backendcursojava.entities.TipoUsuarioEntity;
+import net.purocodigo.backendcursojava.repositories.TipoUsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -61,6 +64,7 @@ public class UserController {
 
         UUID userID = UUID.randomUUID();
         promotorDto.setUserId(userID.toString());
+        promotorDto.setTipoUsuarioId(userDetails.getTipoUsuarioId());
 
         PromotorDto createdUser = userService.createUser(promotorDto);
 
@@ -73,7 +77,7 @@ public class UserController {
         return userToReturn;
     }
 
-    @GetMapping(path = "/posts") // localhost:8080/users/posts
+    @GetMapping(path = "/prospectos") // localhost:8080/users/posts
     public List<ProspectoRest> getPosts() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

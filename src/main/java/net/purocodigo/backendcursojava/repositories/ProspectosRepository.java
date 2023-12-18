@@ -11,11 +11,11 @@ import java.util.List;
 
 @Repository
 public interface ProspectosRepository extends PagingAndSortingRepository<ProspectoEntity, Long> {
-    List<ProspectoEntity> getByIdOrderByCreatedAtDesc(long userId);
+    List<ProspectoEntity> getByPromotorIdOrderByCreatedAtDesc(long userId);
 
     @Query(value = "SELECT * FROM prospectos p ORDER BY created_at DESC", nativeQuery = true)
     List<ProspectoEntity> getLastPublicPosts(@Param("estatusProspecto") long estatusProspectoId, @Param("now") Date now);
 
 
-    ProspectoEntity findById(String postId);
+    ProspectoEntity findByProspectoId(String postId);
 }

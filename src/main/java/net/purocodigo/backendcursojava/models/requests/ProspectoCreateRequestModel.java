@@ -38,7 +38,7 @@ public class ProspectoCreateRequestModel {
     private String rfc;
 
     @NotNull(message = "El estatus del prospecto es obligatoria")
-    @Range(min = 1, max = 2, message = "El estatus del prospecto es invalida")
+    @Range(min = 1, max = 3, message = "El estatus del prospecto es invalida")
     private long estatusProspectoId;
 
 
