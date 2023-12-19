@@ -86,7 +86,7 @@ public class ProspectosController {
 
             PromotorDto user = userService.getUser(authentication.getPrincipal().toString());
 
-            if (user.getUserId() != prospectoDto.getPromotor().getUserId()) {
+            if (user.getUserId() != prospectoDto.getUsuario().getUserId()) {
                 throw new RuntimeException("No tienes permisos para realizar esta accion");
             }
         //}

@@ -27,5 +27,4 @@ public class ProspectoRest {
     private EstatusProspectoRest estatusProspecto;
 
 
-
 }
