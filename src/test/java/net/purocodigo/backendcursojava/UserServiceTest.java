@@ -3,11 +3,12 @@ package net.purocodigo.backendcursojava;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
+import net.purocodigo.backendcursojava.entities.TipoUsuarioEntity;
 import net.purocodigo.backendcursojava.entities.UserEntity;
+import net.purocodigo.backendcursojava.repositories.TipoUsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -29,7 +30,12 @@ public class UserServiceTest {
     @Mock
     UserRepository userRepository;
 
+    @Mock
+    TipoUsuarioRepository tipoUsuarioRepository;
+
     UserEntity userEntity;
+
+    TipoUsuarioEntity tipoUsuarioEntity;
 
     @Mock
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -46,6 +52,11 @@ public class UserServiceTest {
         userEntity.setNombre("Daniel");
         userEntity.setId(1L);
         userEntity.setContrasenaEncryptada(encryptedPassword);
+
+        tipoUsuarioEntity = new TipoUsuarioEntity();
+        tipoUsuarioEntity.setId(1);
+        tipoUsuarioEntity.setNombre("PROMOTOR");
+        userEntity.setTipoUsuario(tipoUsuarioEntity);
     }
 
     @Test
@@ -73,6 +84,7 @@ public class UserServiceTest {
         when(userRepository.findByCorreo(anyString())).thenReturn(null);
         when(bCryptPasswordEncoder.encode(anyString())).thenReturn(encryptedPassword);
         when(userRepository.save(any(UserEntity.class))).thenReturn(userEntity);
+        when(tipoUsuarioRepository.findById(anyByte())).thenReturn(tipoUsuarioEntity);
 
         PromotorDto promotorDto = userService.createUser(new PromotorDto());
 

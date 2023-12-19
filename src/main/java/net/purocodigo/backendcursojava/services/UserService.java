@@ -57,6 +57,7 @@ public class UserService implements UserServiceInterface {
         userEntity.setUserId(userId.toString());
 
         TipoUsuarioEntity tipoUsuarioEntity = tipoUsuarioRepository.findById(user.getTipoUsuarioId());
+
         userEntity.setTipoUsuario(tipoUsuarioEntity);
 
         UserEntity storedUserDetails = userRepository.save(userEntity);

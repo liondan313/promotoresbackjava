@@ -49,7 +49,7 @@ public class UserController {
 
         UserRest userToReturn = new UserRest(); //mapper.map(promotorDto, UserRest.class);
 
-        userToReturn.setPrimerApellido(promotorDto.getPrimerApellido());
+        //userToReturn.setPrimerApellido(promotorDto.getPrimerApellido());
         userToReturn.setNombre(promotorDto.getNombre());
         userToReturn.setCorreo(promotorDto.getCorreo());
         userToReturn.setTipoUsuarioId(promotorDto.getTipoUsuarioId());
@@ -64,7 +64,7 @@ public class UserController {
 
         PromotorDto promotorDto = new PromotorDto();
 
-        promotorDto.setPrimerApellido(userDetails.getLastName());
+        //promotorDto.setPrimerApellido(userDetails.getLastName());
         promotorDto.setNombre(userDetails.getFirstName());
         promotorDto.setCorreo(userDetails.getEmail());
         promotorDto.setContrasena(userDetails.getPassword());
@@ -76,7 +76,7 @@ public class UserController {
         PromotorDto createdUser = userService.createUser(promotorDto);
 
         userToReturn.setNombre(createdUser.getNombre());
-        userToReturn.setPrimerApellido(createdUser.getPrimerApellido());
+        //userToReturn.setPrimerApellido(createdUser.getPrimerApellido());
         userToReturn.setCorreo(createdUser.getCorreo());
         userToReturn.setUserId(createdUser.getUserId());
         userToReturn.setTipoUsuarioId(createdUser.getTipoUsuario().getId());
