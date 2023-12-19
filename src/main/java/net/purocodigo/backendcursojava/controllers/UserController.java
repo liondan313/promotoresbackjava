@@ -79,6 +79,7 @@ public class UserController {
         userToReturn.setPrimerApellido(createdUser.getPrimerApellido());
         userToReturn.setCorreo(createdUser.getCorreo());
         userToReturn.setUserId(createdUser.getUserId());
+        userToReturn.setTipoUsuarioId(createdUser.getTipoUsuario().getId());
 
         return userToReturn;
     }
