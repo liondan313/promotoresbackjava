@@ -43,8 +43,8 @@ public class ProspectoEntity implements Serializable {
     private Date createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "promotor_id")
-    private UserEntity promotor;
+    @JoinColumn(name = "usuario_id")
+    private UserEntity usuario;
 
     @Column(nullable = false)
     private String prospectoId;

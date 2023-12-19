@@ -41,7 +41,7 @@ public class ProspectoService implements ProspectoServiceInterface {
 
         ProspectoEntity prospectoEntity = new ProspectoEntity();
 
-        prospectoEntity.setPromotor(userEntity);
+        prospectoEntity.setUsuario(userEntity);
         prospectoEntity.setEstatusProspecto(estatusProspectoEntity);
         prospectoEntity.setNombre(post.getNombre());
         prospectoEntity.setPrimerApellido(post.getPrimerApellido());
@@ -91,7 +91,7 @@ public class ProspectoService implements ProspectoServiceInterface {
     @Override
     public void deletePost(String postId, long userId) {
         ProspectoEntity postEntity = prospectosRepository.findByProspectoId(postId);
-        if (postEntity.getPromotor().getId() != userId)
+        if (postEntity.getUsuario().getId() != userId)
             throw new RuntimeException("No se puede realizar esta accion");
 
         prospectosRepository.delete(postEntity);
@@ -102,7 +102,7 @@ public class ProspectoService implements ProspectoServiceInterface {
     public ProspectoDto updatePost(String postId, long userId, ProspectoCreationDto postUpdateDto) {
         ProspectoEntity postEntity = prospectosRepository.findByProspectoId(postId);
 
-        if (postEntity.getPromotor().getTipoUsuario().getId()!=1)
+        if (postEntity.getUsuario().getTipoUsuario().getId()!=1)
             throw new RuntimeException("No se puede realizar esta accion");
 
         EstatusProspectoEntity exposureEntity = estatusProspectoRepository.findById(postUpdateDto.getEstatusProspectoId());

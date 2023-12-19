@@ -98,7 +98,7 @@ public class UserService implements UserServiceInterface {
 
         UserEntity userEntity = userRepository.findByCorreo(email);
 
-        List<ProspectoEntity> posts = prospectosRepository.getByPromotorIdOrderByCreatedAtDesc(userEntity.getId());
+        List<ProspectoEntity> posts = prospectosRepository.getByUsuarioIdOrderByCreatedAtDesc(userEntity.getId());
 
         List<ProspectoDto> prospectoDtos = new ArrayList<>();
 

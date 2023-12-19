@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Entity(name = "usuarios")
-@Table(indexes = { @Index(columnList = "userId", name = "index_userid", unique = true),
+@Table(indexes = { @Index(columnList = "userId", name = "index_user2id", unique = true),
         @Index(columnList = "correo", name = "index_correo", unique = true) })
 public class UserEntity implements Serializable {
 
@@ -31,7 +31,7 @@ public class UserEntity implements Serializable {
     @Column(nullable = false)
     private String contrasenaEncryptada;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "promotor")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<ProspectoEntity> prospectos = new ArrayList<>();
 
     @ManyToOne
