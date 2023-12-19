@@ -80,8 +80,8 @@ public class ProspectosController {
 
         ProspectoRest prospectoRest = mapper.map(prospectoDto, ProspectoRest.class);
 
-        // VALIDAR SI EL POST ES PRIVADO O SI EL POST YA EXPIRO
-        //if (prospectoRest.getEstatusProspecto().getId() == Exposures.PRIVATE ){//|| prospectoRest.getExpired()) {
+        prospectoRest.setEstatusProspectoId(prospectoDto.getEstatusProspecto().getId());
+
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             PromotorDto user = userService.getUser(authentication.getPrincipal().toString());

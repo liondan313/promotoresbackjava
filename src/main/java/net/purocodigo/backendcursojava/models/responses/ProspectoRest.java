@@ -24,7 +24,8 @@ public class ProspectoRest {
 
     private Date createdAt;
 
-    private EstatusProspectoRest estatusProspecto;
+    //private EstatusProspectoRest estatusProspecto;
+    private long estatusProspectoId;
 
 
 }

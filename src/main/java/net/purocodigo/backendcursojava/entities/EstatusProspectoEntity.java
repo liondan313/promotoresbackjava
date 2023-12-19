@@ -1,10 +1,13 @@
 package net.purocodigo.backendcursojava.entities;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity(name = "estatus_prospecto")
 public class EstatusProspectoEntity implements Serializable {
 
