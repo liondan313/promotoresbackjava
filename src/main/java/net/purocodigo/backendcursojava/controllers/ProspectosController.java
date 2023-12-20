@@ -84,14 +84,13 @@ public class ProspectosController {
 
         prospectoRest.setEstatusProspectoId(prospectoDto.getEstatusProspecto().getId());
 
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-            PromotorDto user = userService.getUser(authentication.getPrincipal().toString());
+        PromotorDto user = userService.getUser(authentication.getPrincipal().toString());
 
-            if (user.getUserId() != prospectoDto.getUsuario().getUserId()  && user.getTipoUsuarioId() != TIPO_USUARIO_SUPERVISOR ) {
-                throw new RuntimeException("No tienes permisos para realizar esta accion");
-            }
-        //}
+        if (user.getUserId() != prospectoDto.getUsuario().getUserId()  && user.getTipoUsuarioId() != TIPO_USUARIO_SUPERVISOR ) {
+            throw new RuntimeException("No tienes permisos para realizar esta accion");
+        }
 
         return prospectoRest;
     }

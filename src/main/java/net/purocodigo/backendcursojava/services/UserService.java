@@ -91,6 +91,8 @@ public class UserService implements UserServiceInterface {
 
         BeanUtils.copyProperties(userEntity, userToReturn);
 
+        userToReturn.setTipoUsuarioId(userEntity.getTipoUsuario().getId());
+
         return userToReturn;
     }
 
