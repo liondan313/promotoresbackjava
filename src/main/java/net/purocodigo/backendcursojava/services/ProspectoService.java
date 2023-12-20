@@ -32,6 +32,7 @@ public class ProspectoService implements ProspectoServiceInterface {
     @Autowired
     ModelMapper mapper;
 
+    private static final int TIPO_USUARIO_SUPERVISOR = 2;
 
     @Override
     public ProspectoDto createProspecto(ProspectoCreationDto post) {
@@ -102,8 +103,9 @@ public class ProspectoService implements ProspectoServiceInterface {
     public ProspectoDto updatePost(String postId, long userId, ProspectoCreationDto postUpdateDto) {
         ProspectoEntity postEntity = prospectosRepository.findByProspectoId(postId);
 
-        if (postEntity.getUsuario().getTipoUsuario().getId()!=1)
-            throw new RuntimeException("No se puede realizar esta accion");
+        if (postEntity.getUsuario().getTipoUsuario().getId() != TIPO_USUARIO_SUPERVISOR ) {
+            throw new RuntimeException("No tienes permisos para realizar esta accion");
+        }
 
         EstatusProspectoEntity exposureEntity = estatusProspectoRepository.findById(postUpdateDto.getEstatusProspectoId());
 
