@@ -103,15 +103,10 @@ public class ProspectoService implements ProspectoServiceInterface {
     public ProspectoDto updatePost(String postId, long userId, ProspectoCreationDto postUpdateDto) {
         ProspectoEntity postEntity = prospectosRepository.findByProspectoId(postId);
 
-        /*if (postEntity.getUsuario().getTipoUsuario().getId() != TIPO_USUARIO_SUPERVISOR ) {
-            throw new RuntimeException("No tienes permisos para realizar esta accion");
-        }*/
-
         EstatusProspectoEntity exposureEntity = estatusProspectoRepository.findById(postUpdateDto.getEstatusProspectoId());
 
         postEntity.setEstatusProspecto(exposureEntity);
-
-        //BeanUtils.copyProperties(postUpdateDto, postEntity);
+        postEntity.setObservaciones(postUpdateDto.getObservaciones());
 
         ProspectoEntity updatedPost = prospectosRepository.save(postEntity);
 

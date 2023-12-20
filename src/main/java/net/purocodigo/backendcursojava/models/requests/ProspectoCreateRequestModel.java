@@ -41,6 +41,10 @@ public class ProspectoCreateRequestModel {
     @Range(min = 1, max = 3, message = "El estatus del prospecto es invalida")
     private long estatusProspectoId;
 
+    private String observaciones;
+
+
+
 
 }
 

@@ -29,5 +29,7 @@ public class ProspectoRest {
 
     private String prospectoId;
 
+    private String observaciones;
+
 
 }
