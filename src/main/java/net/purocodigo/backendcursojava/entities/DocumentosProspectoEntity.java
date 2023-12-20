@@ -19,8 +19,13 @@ public class DocumentosProspectoEntity implements Serializable {
     @Lob
     @Column(nullable = false)
     private byte[] archivo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "documentosProspecto")
-    private List<ProspectoEntity> prospectos = new ArrayList<>();
+
+    /*@OneToMany(cascade = CascadeType.ALL, mappedBy = "documentosProspecto")
+    private List<ProspectoEntity> prospectos = new ArrayList<>();*/
+
+    @ManyToOne
+    @JoinColumn(name = "prospecto_id")
+    private ProspectoEntity prospecto;
 
 
 }

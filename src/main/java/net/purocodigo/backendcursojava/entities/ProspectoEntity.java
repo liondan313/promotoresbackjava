@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity(name = "prospectos")
@@ -53,9 +54,12 @@ public class ProspectoEntity implements Serializable {
     @JoinColumn(name = "estatusprospecto_id")
     private EstatusProspectoEntity estatusProspecto;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "documentoprospecto_id")
-    private DocumentosProspectoEntity documentosProspecto;
+    private DocumentosProspectoEntity documentosProspecto;*/
+
+    @OneToMany(mappedBy = "prospecto", cascade = CascadeType.ALL)
+    private List<DocumentosProspectoEntity> documentos;
 
     @Column(nullable = false)
     private String observaciones = "";
