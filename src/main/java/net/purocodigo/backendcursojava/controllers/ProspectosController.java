@@ -41,6 +41,8 @@ public class ProspectosController {
     @Autowired
     ModelMapper mapper;
 
+    private static final int TIPO_USUARIO_SUPERVISOR = 2;
+
     @PostMapping
     public ProspectoRest createPost(@RequestBody @Valid ProspectoCreateRequestModel createRequestModel) {
 
@@ -86,7 +88,7 @@ public class ProspectosController {
 
             PromotorDto user = userService.getUser(authentication.getPrincipal().toString());
 
-            if (user.getUserId() != prospectoDto.getUsuario().getUserId()) {
+            if (user.getUserId() != prospectoDto.getUsuario().getUserId()  && user.getTipoUsuarioId() != TIPO_USUARIO_SUPERVISOR ) {
                 throw new RuntimeException("No tienes permisos para realizar esta accion");
             }
         //}
