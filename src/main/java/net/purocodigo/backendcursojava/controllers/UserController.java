@@ -47,7 +47,7 @@ public class UserController {
 
         promotorDto.setTipoUsuarioId(promotorDto.getTipoUsuario().getId());
 
-        UserRest userToReturn = new UserRest(); //mapper.map(promotorDto, UserRest.class);
+        UserRest userToReturn = new UserRest();
 
         //userToReturn.setPrimerApellido(promotorDto.getPrimerApellido());
         userToReturn.setNombre(promotorDto.getNombre());

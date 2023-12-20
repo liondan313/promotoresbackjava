@@ -27,5 +27,7 @@ public class ProspectoRest {
     //private EstatusProspectoRest estatusProspecto;
     private long estatusProspectoId;
 
+    private String prospectoId;
+
 
 }
